@@ -1,0 +1,14 @@
+.vscode
+.history
+__pycache__
+R_files/*
+R_files/*/*
+Books/
+ISLP_Code/.ipynb_checkpoints
+.DS_Store
+
+TEST_Final_Project/.DS_Store
+
+R_files/Model_Selection/*.R
+R_files/NonLinear_Model/*.R
+TEST_Final_Project/data/.DS_Store

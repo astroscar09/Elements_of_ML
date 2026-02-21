@@ -8,6 +8,7 @@ from ISLP.models import ( ModelSpec as MS ,
                           poly)
 from statsmodels.stats.outliers_influence \
 import variance_inflation_factor as VIF
+import matplotlib.pyplot as plt
 
 
 def construct_X_array(df, features_cols):

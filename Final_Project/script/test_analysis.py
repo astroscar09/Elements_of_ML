@@ -31,9 +31,9 @@ features_cols = ['burst',
 
 
 
-features = pd.read_csv('Features_with_Continuum.txt', sep = ' ', index_col = 0)
+features = pd.read_csv('../data/raw_data/Features_with_Continuum.txt', sep = ' ', index_col = 0)
 
-yval = pd.read_csv('Predictions_with_Continuum.txt', sep = ' ', index_col = 0)
+yval = pd.read_csv('../data/raw_data/Predictions_with_Continuum.txt', sep = ' ', index_col = 0)
 
 
 good_chi2_mask = (features.chisq_phot.values < 100) & (features.chisq_phot.values > 0)

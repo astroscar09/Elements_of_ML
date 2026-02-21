@@ -17,8 +17,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 
-FEATURE_FILE = 'Features_with_Continuum.txt'
-PREDICTION_FILE = 'Predictions_with_Continuum.txt'
+FEATURE_FILE = '../data/raw_data/Features_with_Continuum.txt'
+PREDICTION_FILE = './data/raw_data/Predictions_with_Continuum.txt'
 CHI2_MAX = 100
 CHI2_MIN = 0
 SN_MIN = 5.3
@@ -184,7 +184,7 @@ def applying_kfold_validation_NN(model, X_train, y_train, kfolds, epochs, learni
 
     pd.DataFrame({'R2': r2_scores, 
                   'MAE': mae_scores, 
-                  'MSE': mse_scores}).to_csv('scores_per_epoch_2layers_kfold.csv')
+                  'MSE': mse_scores}).to_csv('../data/processed_data/scores_per_epoch_2layers_kfold.csv')
 
     return val_losses, losses_per_epoch, model, scale_x, criterion
 
@@ -265,7 +265,6 @@ def plot_comparison(y_true, y_test):
     plt.title('Test Set Predictions with K-Fold Cross-Validation')
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2)
     plt.show()
-    #plt.savefig('predictions.png')
     plt.close()
 
 def plot_loss(losses_per_epoch, val_losses):
@@ -289,7 +288,7 @@ def plot_loss(losses_per_epoch, val_losses):
     ax1.set_ylabel('Loss')
 
     #plt.show()
-    fig.savefig('losses.png')
+    fig.savefig('../plots/losses_2layers.png')
     plt.close()
 
 if __name__ == "__main__":
@@ -297,15 +296,11 @@ if __name__ == "__main__":
     # Define parameters
     input_size = len(features_cols)
     hidden_size1 = 132
-    #hidden_size2 = 10
-    #hidden_size3 = 5
     kfolds = 5
     epochs = 1000
     LOG = False
 
     feature_df, y_val_df = read_data(LOG)
-
-    #print(y_val_df)
 
     # Create model
     model = NN_Model_2_Layers(input_size, hidden_size1)
@@ -315,8 +310,3 @@ if __name__ == "__main__":
 
     plot_comparison(y_test, y_pred)
     
-    #np.savetxt('val_losses_2Layers.txt', val_losses)
-    #np.savetxt('losses_per_epoch_2Layers.txt', losses_per_epoch)
-    
-    #print_results(val_losses, losses_per_epoch, r2_scores, mae_scores, mse_scores)
-    #plot_loss(losses_per_epoch, val_losses)

@@ -33,8 +33,8 @@ features_cols = ['burst',
                 'redshift']
 
 
-FEATURE_FILE = 'Features_with_Continuum.txt'
-PREDICTION_FILE = 'Predictions_with_Continuum.txt'
+FEATURE_FILE = '../data/raw_data/Features_with_Continuum.txt'
+PREDICTION_FILE = '../data/raw_data/Predictions_with_Continuum.txt'
 CHI2_MAX = 100
 CHI2_MIN = 0
 SN_MIN = 5.3
@@ -95,11 +95,7 @@ class NN_Model_4_Layers(nn.Module):
         x = F.relu(self.fc3(x))
         x = self.dropout(x)
         x = self.fc4(x)
-        
-        #
-        #x = F.softmax(x, dim=1)
-        #x = self.relu(x)
-        #x = self.dropout(x)
+    
         return x
     
 
@@ -167,9 +163,7 @@ def training_model(X_train, y_train):
             if epoch % 10 == 0:
                 print(f'Epoch {epoch+1}/{epochs}, Loss: {loss.item():.4f}')
         
-        #plt.plot(losses, label = f'Fold {len(val_losses) + 1}')
         losses_per_epoch.append(losses)
-        #losses.append(loss.detach().numpy())
 
         model.eval()
 
@@ -191,10 +185,6 @@ def train_model_no_kfold(X_train, X_test, y_train, y_test):
     X_train_scaled = scale.fit_transform(X_train)
     X_test_scaled = scale.transform(X_test)
 
-
-    #y_train_scaled = scale.fit_transform(y_train)
-    #y_test_scaled = scale.transform(y_test)
-
     X_train, y_train = torch.FloatTensor(X_train_scaled), torch.FloatTensor(y_train.values)
     X_test, y_test = torch.FloatTensor(X_test_scaled), torch.FloatTensor(y_test.values)
 
@@ -207,8 +197,6 @@ def train_model_no_kfold(X_train, X_test, y_train, y_test):
     #set criterion and optimizer
     #Using the mse loss function
     criterion = nn.MSELoss() #mean squared error
-    #criterion = nn.L1Loss() #mean absolute error
-    #criterion = nn.SmoothL1Loss() #combines MSE and MAE into one loss function
 
     optimizer = optim.Adam(model.parameters(), lr=0.001)
 
@@ -216,7 +204,6 @@ def train_model_no_kfold(X_train, X_test, y_train, y_test):
 
     for epoch in range(epochs):
         #zero the parameter gradients
-        #optimizer.zero_grad()
         
         #forward pass
         y_pred = model.forward(X_train)
@@ -237,7 +224,7 @@ def train_model_no_kfold(X_train, X_test, y_train, y_test):
         if epoch % 10 == 0:
             print(f'Epoch {epoch+1}/{epochs}, Loss: {loss.item():.4f}')
 
-    np.savetxt('losses_single_pass_4_layers.txt', losses_single_pass)
+    np.savetxt('../data/processed_data/losses_single_pass_4_layers.txt', losses_single_pass)
 
 
     #Testing on the testing set
@@ -293,15 +280,13 @@ def compare_predictions_plot(y_true, y_test):
     plt.title('Test Set Predictions with K-Fold Cross-Validation')
     plt.plot([y_test.min(), y_test.max()], [y_test.min(), y_test.max()], 'k--', lw=2, label = '1-to-1 Line')
     plt.legend()
-    plt.savefig('Predictions_4_layers.png')
-    #plt.show()
-    #plt.close('all')
+    plt.savefig('../plots/Predictions_4_layers.png')
+
 
 
 def main(X_train, X_test, y_train, y_test):
     
     model, val_losses, losses_per_epoch, scale_x, criterion = training_model(X_train, y_train)
-    #plot_loss(losses_per_epoch, val_losses)
     y_pred, loss = test_model(model, X_test, y_test, scale_x, criterion)
     compare_predictions_plot(y_test, y_pred)
 
@@ -318,10 +303,5 @@ if __name__ == "__main__":
                                                     y_val_df, 
                                                     test_size=0.2, 
                                                     random_state=42423)
-    
-    #X_train, X_test, y_train, y_test = read_data(log)
-    #main(X_train, X_test, y_train, y_test)
-
-    #main()
 
     train_model_no_kfold(X_train, X_test, y_train, y_test)

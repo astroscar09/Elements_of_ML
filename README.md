@@ -18,9 +18,9 @@ The directories in this repository hold the code that I wrote and used in the cl
 
 The entire data files we had is stored in the *Data* Directory, and we only used a couple of the Datasets for the homework and so there is a Separate Homework_Data directory that houses those datasets. 
 
-In this class we were tasked with a final project to use ML to make inferences and predictions. I decided to lead a team of 4 in a model optimization test to see which ML model can best predict an observables seen in very distant galaxies. I was in charge of testing how well a Neural Network can predict this observable. I made 3 different NN architectures, representing different depths and layers and even folding in K-fold validation during the training phase to see if k-fold can be used to improve accuracy.
+In this class we were tasked with a final project to use ML to make inferences and predictions. I decided to lead a team of 4 in a model optimization test to see which ML model can best predict an observable seen in very distant galaxies. I was in charge of testing how well a Neural Network can predict this observable. I made 3 different NN architectures, representing different depths and layers and even folding in K-fold validation during the training phase to see if k-fold can be used to improve accuracy.
 
-The skills that were gained throughtout the course: 
+The skills that were gained throughout the course: 
 
 Coding: 
 - pandas, 
@@ -31,7 +31,7 @@ ML/Data Analysis
 - EDA 
 - Feature Engineering 
 - Regression (Lasso, Ridge, Logistic)
-- Tree based ML Models (Random Forrest, XGBoost)
+- Tree based ML Models (Random Forest, XGBoost)
 - KNN
 
 ## EDA: 
